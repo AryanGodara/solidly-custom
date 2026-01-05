@@ -1,0 +1,29 @@
+{
+  "name": "solidly-custom",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @solidly-custom/web dev\" \"pnpm --filter @solidly-custom/api dev\"",
+    "dev:web": "pnpm --filter @solidly-custom/web dev",
+    "dev:api": "pnpm --filter @solidly-custom/api dev",
+    "dev:contracts": "pnpm --filter @solidly-custom/contracts anvil",
+    "build": "pnpm -r build",
+    "build:web": "pnpm --filter @solidly-custom/web build",
+    "build:api": "pnpm --filter @solidly-custom/api build",
+    "build:contracts": "pnpm --filter @solidly-custom/contracts build",
+    "test": "pnpm --filter @solidly-custom/contracts test",
+    "test:contracts": "pnpm --filter @solidly-custom/contracts test",
+    "deploy:sepolia": "pnpm --filter @solidly-custom/contracts deploy:sepolia",
+    "deploy:mainnet": "pnpm --filter @solidly-custom/contracts deploy:mainnet",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "packageManager": "pnpm@9.4.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
