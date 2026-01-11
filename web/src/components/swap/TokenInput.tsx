@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Address } from "viem";
-import { useAccount, useBalance } from "wagmi";
+import { Address, formatUnits } from "viem";
+import { useAccount, useReadContract } from "wagmi";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui";
 import { TokenSelector } from "./TokenSelector";
 import { formatTokenAmount } from "@/lib/format";
-import { MONAD_CONTRACTS } from "@/lib/contracts";
+import { MONAD_CONTRACTS, ABIS } from "@/lib/contracts";
 
 // Token info lookup
 const TOKEN_INFO: Record<string, { symbol: string; decimals: number }> = {
@@ -43,14 +43,22 @@ export function TokenInput({
   const { address } = useAccount();
 
   const tokenInfo = token ? TOKEN_INFO[token] : null;
-  const { data: balance } = useBalance({
-    address,
-    token: token ?? undefined,
+  const decimals = tokenInfo?.decimals ?? 18;
+
+  // Read ERC20 balance
+  const { data: balanceData } = useReadContract({
+    address: token ?? undefined,
+    abi: ABIS.ERC20,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+    query: { enabled: !!token && !!address },
   });
+
+  const balance = balanceData as bigint | undefined;
 
   const handleMax = () => {
     if (balance) {
-      onAmountChange(formatTokenAmount(balance.value, balance.decimals, 18));
+      onAmountChange(formatUnits(balance, decimals));
     }
   };
 
@@ -59,9 +67,9 @@ export function TokenInput({
       {/* Header */}
       <div className="mb-2 flex items-center justify-between">
         <span className="text-sm text-zinc-400">{label}</span>
-        {balance && (
+        {balance !== undefined && (
           <span className="text-xs text-zinc-500">
-            Balance: {formatTokenAmount(balance.value, balance.decimals)}
+            Balance: {formatTokenAmount(balance, decimals)}
           </span>
         )}
       </div>

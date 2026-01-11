@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Address } from "viem";
-import { useAccount, useBalance } from "wagmi";
+import { Address, formatUnits } from "viem";
+import { useAccount, useReadContract } from "wagmi";
 import { Search } from "lucide-react";
 import { Modal } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { formatTokenAmount, shortenAddress } from "@/lib/format";
-import { MONAD_CONTRACTS } from "@/lib/contracts";
+import { formatTokenAmount } from "@/lib/format";
+import { MONAD_CONTRACTS, ABIS } from "@/lib/contracts";
 import { useDebounce } from "@/hooks";
 
 // Default token list - in production, fetch from API
@@ -92,10 +92,17 @@ interface TokenRowProps {
 
 function TokenRow({ address, symbol, name, decimals, onSelect }: TokenRowProps) {
   const { address: userAddress } = useAccount();
-  const { data: balance } = useBalance({
-    address: userAddress,
-    token: address,
+  
+  // Read ERC20 balance using useReadContract
+  const { data: balanceData } = useReadContract({
+    address: address,
+    abi: ABIS.ERC20,
+    functionName: "balanceOf",
+    args: userAddress ? [userAddress] : undefined,
+    query: { enabled: !!userAddress },
   });
+
+  const balance = balanceData as bigint | undefined;
 
   return (
     <button
@@ -111,9 +118,9 @@ function TokenRow({ address, symbol, name, decimals, onSelect }: TokenRowProps) 
         </div>
       </div>
       <div className="text-right">
-        {balance && (
+        {balance !== undefined && (
           <p className="font-mono text-sm text-zinc-300">
-            {formatTokenAmount(balance.value, balance.decimals)}
+            {formatTokenAmount(balance, decimals)}
           </p>
         )}
       </div>

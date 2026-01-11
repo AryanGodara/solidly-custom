@@ -1,88 +1,145 @@
 # Solidly DEX on Monad
 
-A production-ready Solidly-style ve(3,3) DEX on the Monad blockchain.
+A production-ready ve(3,3) decentralized exchange built for the Monad blockchain.
+
+![Dashboard](docs/screenshots/screenshot-home.png)
+
+## Features
+
+- **Token Swaps**: Trade any ERC-20 token with optimal routing
+- **Liquidity Pools**: Provide liquidity to stable and volatile pairs
+- **Vote-Escrowed NFTs (veNFT)**: Lock tokens to receive voting power
+- **Gauge Voting**: Direct emissions to your preferred pools
+- **Bribes**: Earn additional rewards for your votes
+- **Rewards**: Claim trading fees, emissions, and bribes
+
+## Screenshots
+
+<details>
+<summary>View Screenshots</summary>
+
+### Swap Interface
+![Swap](docs/screenshots/screenshot-swap.png)
+
+### Liquidity Pools
+![Liquidity](docs/screenshots/screenshot-liquidity.png)
+
+### Lock & veNFT
+![Lock](docs/screenshots/screenshot-lock.png)
+
+### Voting
+![Vote](docs/screenshots/screenshot-vote.png)
+
+</details>
+
+## Tech Stack
+
+| Package | Technologies |
+|---------|-------------|
+| **Contracts** | Solidity 0.8.9, Foundry, Hardhat |
+| **Web** | Next.js 14, TypeScript, Tailwind CSS, wagmi v3, RainbowKit |
+| **API** | Hono, Viem, TypeScript |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- pnpm >= 9
+- Foundry (for contracts)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/solidly-custom.git
+cd solidly-custom
+
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp web/.env.example web/.env.local
+# Edit web/.env.local with your values
+```
+
+### Development
+
+```bash
+# Run web development server
+pnpm dev:web
+
+# Run API server
+pnpm dev:api
+
+# Build contracts
+cd contracts && forge build
+```
 
 ## Project Structure
 
 ```
 solidly-custom/
-├── contracts/          # Smart contracts (Foundry + Hardhat)
-├── web/               # Next.js frontend
-└── api/               # Hono API server
+├── contracts/          # Solidity smart contracts
+│   ├── src/            # Contract source files
+│   ├── test/           # Foundry tests
+│   └── script/         # Deployment scripts
+├── web/                # Next.js frontend
+│   ├── src/app/        # App router pages
+│   ├── src/components/ # React components
+│   ├── src/hooks/      # Custom hooks
+│   └── src/lib/        # Utilities and config
+├── api/                # Hono API server
+│   └── src/            # API routes and services
+└── docs/               # Documentation
 ```
 
-## Prerequisites
+## Configuration
 
-- Node.js >= 20.0.0
-- pnpm >= 9.0.0
-- Foundry (install via `curl -L https://foundry.paradigm.xyz | bash && foundryup`)
+### Environment Variables
 
-## Setup
+Create `web/.env.local`:
 
-```bash
-# Install dependencies
-pnpm install
-
-# Copy environment variables
-cp .env.example .env
-# Edit .env with your values (WalletConnect Project ID required)
+```env
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+NEXT_PUBLIC_CHAIN_ID=143
+NEXT_PUBLIC_RPC_URL=https://rpc.monad.xyz
 ```
 
-## Development
+Get a WalletConnect Project ID at https://cloud.walletconnect.com
 
-```bash
-# Run web + api concurrently
-pnpm dev
+### Monad Network
 
-# Run individual packages
-pnpm dev:web     # http://localhost:3000
-pnpm dev:api     # http://localhost:8787
+| Network | Chain ID | RPC URL |
+|---------|----------|---------|
+| Mainnet | 143 | https://rpc.monad.xyz |
+| Testnet | 10143 | https://testnet-rpc.monad.xyz |
 
-# Build all packages
-pnpm build
+## Scripts
 
-# Test contracts
-pnpm test:contracts
-```
+| Command | Description |
+|---------|-------------|
+| `pnpm install` | Install all dependencies |
+| `pnpm dev:web` | Start web dev server |
+| `pnpm dev:api` | Start API dev server |
+| `pnpm build` | Build all packages |
+| `pnpm test` | Run contract tests |
 
-## Monad Network
+## Contract Addresses
 
-**Mainnet (Chain ID: 143)**
-- RPC: https://rpc.monad.xyz
-- Explorer: https://monadvision.com
-- WMON: 0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A
+Addresses will be updated after deployment to Monad.
 
-**Testnet (Chain ID: 10143)**
-- RPC: https://testnet-rpc.monad.xyz
-- Explorer: https://testnet.monadexplorer.com
-- Faucet: https://testnet.monad.xyz
+| Contract | Address |
+|----------|---------|
+| Token | TBD |
+| VotingEscrow | TBD |
+| Router | TBD |
+| PairFactory | TBD |
+| Voter | TBD |
 
 ## Deployment
 
-```bash
-# Deploy to Monad testnet
-cd contracts
-pnpm deploy:sepolia  # Update script for Monad
-
-# After deployment, update addresses in:
-# - web/src/lib/contracts.ts
-# - api/src/lib/constants.ts
-```
-
-## Features
-
-- **Swap**: Trade tokens with minimal slippage
-- **Liquidity**: Provide liquidity and earn fees
-- **Vote**: Vote for pools and direct emissions
-- **Lock**: Lock tokens to receive veNFTs
-- **Rewards**: Claim emissions, fees, and bribes
-
-## Tech Stack
-
-- **Contracts**: Solidity 0.8.9, Foundry, Hardhat
-- **Frontend**: Next.js 14, Tailwind CSS, wagmi v3, RainbowKit
-- **API**: Hono, Viem
-- **State**: Zustand, TanStack Query
+Contract deployment instructions coming soon.
 
 ## License
 

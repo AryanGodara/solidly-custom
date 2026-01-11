@@ -1,5 +1,7 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-import { http, type Chain } from "wagmi";
+import { http } from "wagmi";
+import { type Chain } from "viem";
+
 
 // Monad Mainnet - not yet in viem/chains
 export const monad: Chain = {
