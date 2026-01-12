@@ -3,8 +3,7 @@
 /* ============================================
    MERIDIAN DEX - Windows 95 Theme
    ============================================
-   Authentic Windows 95 aesthetic
-   Teal desktop, grey windows, 3D beveled buttons
+   Full-screen, high contrast, readable
    ============================================ */
 
 :root {
@@ -18,15 +17,15 @@
   --window-title-text: #ffffff;
 
   /* 3D Bevel Colors */
-  --bevel-light: #ffffff;
+  --bevel-light: #dfdfdf;
   --bevel-dark: #808080;
-  --bevel-darker: #404040;
+  --bevel-darker: #000000;
 
-  /* Text */
+  /* Text - HIGH CONTRAST */
   --text-primary: #000000;
-  --text-secondary: #404040;
-  --text-disabled: #808080;
-  --text-link: #0000ff;
+  --text-secondary: #333333;
+  --text-disabled: #5a5a5a;
+  --text-link: #0000ee;
 
   /* Button States */
   --button-face: #c0c0c0;
@@ -39,13 +38,27 @@
   --input-border: #808080;
 
   /* Status Colors */
-  --color-success: #008000;
-  --color-error: #ff0000;
-  --color-warning: #808000;
+  --color-success: #008800;
+  --color-error: #cc0000;
+  --color-warning: #996600;
 
-  /* Typography - System Font */
-  --font-system: "MS Sans Serif", "Segoe UI", Tahoma, Geneva, sans-serif;
-  --font-mono: "Fixedsys", "Courier New", Courier, monospace;
+  /* Typography - Larger, bolder */
+  --font-system: "Segoe UI", Tahoma, "MS Sans Serif", Geneva, sans-serif;
+  --font-mono: "Consolas", "Courier New", Courier, monospace;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-sm: 13px;
+}
+
+/* === Windows 95 Cursor === */
+* {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M0 0 L0 14 L3 11 L6 16 L8 15 L5 10 L9 10 Z' fill='white' stroke='black' stroke-width='1'/%3E%3C/svg%3E"), auto;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M6 0 L6 5 L4 5 L8 10 L12 5 L10 5 L10 0 Z' fill='white' stroke='black' stroke-width='1'/%3E%3C/svg%3E"), pointer;
 }
 
 /* === Base Styles === */
@@ -53,92 +66,111 @@ html,
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
 
 body {
   background: var(--desktop-bg);
   color: var(--text-primary);
   font-family: var(--font-system);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Typography === */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
 }
 
 /* === Windows 95 Window === */
 .window {
   background: var(--window-bg);
-  border: 2px solid;
+  border: 3px solid;
   border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
-  box-shadow: 1px 1px 0 var(--bevel-dark);
+  box-shadow:
+    inset 1px 1px 0 var(--button-highlight),
+    2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .window-title {
-  background: var(--window-title-active);
+  background: linear-gradient(90deg, #000080, #1084d0);
   color: var(--window-title-text);
-  padding: 2px 4px;
-  font-weight: bold;
+  padding: 4px 8px;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .window-content {
-  padding: 8px;
+  padding: 16px;
 }
 
-/* === 3D Raised Button (Windows 95 Style) === */
+/* === 3D Raised Button - READABLE === */
 button,
 .btn {
   font-family: var(--font-system);
-  font-size: 12px;
+  font-size: var(--font-size-base);
+  font-weight: 600;
   background: var(--button-face);
   color: var(--text-primary);
-  padding: 4px 12px;
+  padding: 6px 16px;
   border: 2px solid;
   border-color: var(--button-highlight) var(--button-dark-shadow) var(--button-dark-shadow) var(--button-highlight);
   box-shadow:
     inset -1px -1px 0 var(--button-shadow),
     inset 1px 1px 0 var(--button-highlight);
-  cursor: pointer;
-  min-width: 75px;
+  min-width: 80px;
   text-align: center;
-}
-
-button:hover,
-.btn:hover {
-  /* No hover change in Win95 */
 }
 
 button:active,
 .btn:active {
   border-color: var(--button-dark-shadow) var(--button-highlight) var(--button-highlight) var(--button-dark-shadow);
-  box-shadow:
-    inset 1px 1px 0 var(--button-shadow);
-  padding: 5px 11px 3px 13px;
-  /* Shift text down-right */
+  box-shadow: inset 1px 1px 0 var(--button-shadow);
+  padding: 7px 15px 5px 17px;
 }
 
+/* DISABLED - STILL READABLE */
 button:disabled,
 .btn:disabled {
   color: var(--text-disabled);
   text-shadow: 1px 1px 0 var(--bevel-light);
-  cursor: default;
+  background: #b8b8b8;
 }
 
 button:focus,
 .btn:focus {
-  outline: 1px dotted var(--text-primary);
-  outline-offset: -4px;
+  outline: 2px dotted var(--text-primary);
+  outline-offset: -5px;
 }
 
-/* === Primary Button (Default/Blue) === */
+/* Primary Button - Dark border for emphasis */
 .btn-primary {
-  background: var(--button-face);
-  border: 3px solid;
-  border-color: var(--button-dark-shadow);
-  box-shadow:
-    inset -1px -1px 0 var(--button-shadow),
-    inset 2px 2px 0 var(--button-highlight),
-    inset -2px -2px 0 var(--button-dark-shadow);
+  border: 3px solid var(--button-dark-shadow);
+  font-weight: 700;
 }
 
 /* === Sunken Input Fields === */
@@ -146,24 +178,25 @@ input,
 select,
 textarea {
   font-family: var(--font-system);
-  font-size: 12px;
+  font-size: var(--font-size-base);
+  font-weight: 500;
   background: var(--input-bg);
   color: var(--text-primary);
-  padding: 2px 4px;
+  padding: 6px 8px;
   border: 2px solid;
   border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
-  box-shadow: inset 1px 1px 0 var(--bevel-darker);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
+  border-color: var(--window-title-active) var(--bevel-light) var(--bevel-light) var(--window-title-active);
 }
 
-input[type="text"],
-input[type="number"] {
-  min-height: 20px;
+input::placeholder {
+  color: #666666;
 }
 
 /* === Groupbox / Fieldset === */
@@ -171,27 +204,31 @@ fieldset,
 .groupbox {
   border: 2px solid;
   border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
-  padding: 8px;
-  margin: 8px 0;
+  padding: 16px;
+  margin: 12px 0;
   background: var(--window-bg);
 }
 
 fieldset legend,
 .groupbox-title {
-  padding: 0 4px;
-  font-weight: bold;
+  padding: 2px 8px;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  background: var(--window-bg);
 }
 
 /* === Menu Bar === */
 .menubar {
   background: var(--window-bg);
-  border-bottom: 1px solid var(--bevel-dark);
-  padding: 2px 0;
+  border-bottom: 2px solid var(--bevel-dark);
+  padding: 4px 8px;
+  font-size: var(--font-size-base);
 }
 
 .menubar-item {
-  padding: 2px 8px;
-  cursor: pointer;
+  padding: 4px 12px;
+  font-weight: 500;
 }
 
 .menubar-item:hover {
@@ -204,64 +241,63 @@ fieldset legend,
   background: var(--window-bg);
   border-top: 2px solid;
   border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
-  padding: 2px 4px;
-  font-size: 11px;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
-/* === Tables === */
+/* === Tables - HIGH CONTRAST === */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: var(--font-size-base);
   background: var(--input-bg);
-  border: 2px solid;
-  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+  border: 2px solid var(--bevel-dark);
 }
 
 th {
   background: var(--button-face);
   border: 1px solid var(--bevel-dark);
-  padding: 2px 8px;
+  padding: 8px 12px;
   text-align: left;
-  font-weight: bold;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 td {
-  border: 1px solid var(--bevel-dark);
-  padding: 2px 8px;
+  border: 1px solid #aaaaaa;
+  padding: 8px 12px;
+  color: var(--text-primary);
 }
 
 tr:hover {
-  background: var(--window-title-active);
-  color: var(--window-title-text);
+  background: #e0e0ff;
 }
 
 /* === Links === */
 a {
   color: var(--text-link);
   text-decoration: underline;
+  font-weight: 500;
 }
 
 a:visited {
-  color: #800080;
-}
-
-a:hover {
-  color: var(--text-link);
+  color: #551a8b;
 }
 
 /* === Horizontal Rule === */
 hr {
   border: none;
-  border-top: 1px solid var(--bevel-dark);
-  border-bottom: 1px solid var(--bevel-light);
-  margin: 8px 0;
+  border-top: 2px solid var(--bevel-dark);
+  border-bottom: 2px solid var(--bevel-light);
+  margin: 16px 0;
 }
 
 /* === Scrollbar (Windows 95 Style) === */
 ::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 ::-webkit-scrollbar-track {
@@ -274,34 +310,61 @@ hr {
   border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
 }
 
-::-webkit-scrollbar-button {
-  background: var(--button-face);
-  border: 2px solid;
-  border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
-}
-
 /* === Utility Classes === */
 .text-mono {
   font-family: var(--font-mono);
+  font-weight: 600;
 }
 
 .text-muted {
-  color: var(--text-disabled);
+  color: var(--text-secondary);
 }
 
 .text-success {
   color: var(--color-success);
+  font-weight: 600;
 }
 
 .text-error {
   color: var(--color-error);
+  font-weight: 600;
 }
 
-/* === Container === */
+/* === Container - FULL WIDTH === */
 .container {
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 8px;
+  padding: 16px;
+}
+
+/* === FULL-SCREEN WINDOW === */
+.window-fullscreen {
+  width: calc(100% - 32px);
+  max-width: 1100px;
+  margin: 16px auto;
+  min-height: calc(100vh - 120px);
+}
+
+/* Hide Tailwind preflight issues */
+.hidden {
+  display: none !important;
+}
+
+@media (min-width: 640px) {
+  .sm\:block {
+    display: block !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex !important;
+  }
+
+  .md\:hidden {
+    display: none !important;
+  }
 }
 
 /* === Tailwind Theme === */
