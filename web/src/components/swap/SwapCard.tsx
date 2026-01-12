@@ -1,7 +1,6 @@
 "use client";
 
 import { useAccount } from "wagmi";
-import { ArrowDownUp } from "lucide-react";
 import { Card, Button } from "@/components/ui";
 import { TokenInput } from "./TokenInput";
 import { SwapSettingsButton } from "./SwapSettings";
@@ -28,7 +27,6 @@ export function SwapCard() {
     error,
   } = useSwap();
 
-  // Determine button state and text
   const getButtonState = (): { text: string; disabled: boolean; action: () => void } => {
     if (!isConnected) {
       return { text: "Connect Wallet", disabled: true, action: () => {} };
@@ -48,83 +46,91 @@ export function SwapCard() {
   const buttonState = getButtonState();
 
   return (
-    <Card className="mx-auto w-full max-w-md p-6" glow>
-      {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-white">Swap</h2>
+    <div className="window" style={{ maxWidth: "400px", margin: "0 auto" }}>
+      {/* Title Bar */}
+      <div className="window-title">
+        <span>💱 Swap Tokens</span>
         <SwapSettingsButton />
       </div>
 
-      {/* Token inputs */}
-      <div className="relative space-y-2">
+      {/* Content */}
+      <div className="window-content">
         {/* From */}
-        <TokenInput
-          label="From"
-          token={tokenIn}
-          amount={amountIn}
-          onTokenChange={setTokenIn}
-          onAmountChange={setAmountIn}
-          excludeToken={tokenOut}
-        />
+        <fieldset>
+          <legend>From</legend>
+          <TokenInput
+            label="FROM"
+            token={tokenIn}
+            amount={amountIn}
+            onTokenChange={setTokenIn}
+            onAmountChange={setAmountIn}
+            excludeToken={tokenOut}
+          />
+        </fieldset>
 
-        {/* Switch button */}
-        <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-          <button
-            onClick={switchTokens}
-            className="rounded-xl border-4 border-[#0f0f1a] bg-[#1a1a2e] p-2.5 transition-all duration-200 hover:bg-[#252540] hover:rotate-180"
-          >
-            <ArrowDownUp className="h-4 w-4 text-zinc-400" />
-          </button>
+        {/* Switch */}
+        <div style={{ textAlign: "center", margin: "8px 0" }}>
+          <button onClick={switchTokens}>↕ Switch</button>
         </div>
 
         {/* To */}
-        <TokenInput
-          label="To"
-          token={tokenOut}
-          amount={amountOut}
-          onTokenChange={setTokenOut}
-          onAmountChange={() => {}}
-          excludeToken={tokenIn}
-          readOnly
-        />
-      </div>
+        <fieldset>
+          <legend>To</legend>
+          <TokenInput
+            label="TO"
+            token={tokenOut}
+            amount={amountOut}
+            onTokenChange={setTokenOut}
+            onAmountChange={() => {}}
+            excludeToken={tokenIn}
+            readOnly
+          />
+        </fieldset>
 
-      {/* Price info */}
-      {tokenIn && tokenOut && amountIn && amountOut && (
-        <div className="mt-4 rounded-xl border border-white/5 bg-white/5 p-4">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-zinc-400">Price Impact</span>
-            <span className="font-medium text-white">{quote.priceImpact.toFixed(2)}%</span>
-          </div>
-        </div>
-      )}
-
-      {/* Error message */}
-      {error && (
-        <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400">
-          {error}
-        </div>
-      )}
-
-      {/* Action button */}
-      <div className="mt-6">
-        {!isConnected ? (
-          <div className="flex justify-center">
-            <ConnectButton />
-          </div>
-        ) : (
-          <Button
-            variant="primary"
-            size="lg"
-            className="w-full"
-            onClick={buttonState.action}
-            disabled={buttonState.disabled}
-            loading={isApproving || isSwapping}
-          >
-            {buttonState.text}
-          </Button>
+        {/* Price Info */}
+        {tokenIn && tokenOut && amountIn && amountOut && (
+          <fieldset style={{ marginTop: "8px" }}>
+            <legend>Details</legend>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Price Impact</td>
+                  <td className="text-mono" style={{ textAlign: "right" }}>{quote.priceImpact.toFixed(2)}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
         )}
+
+        {/* Error */}
+        {error && (
+          <div style={{ 
+            marginTop: "8px", 
+            padding: "4px 8px", 
+            background: "#ffcccc", 
+            border: "1px solid var(--color-error)",
+            color: "var(--color-error)"
+          }}>
+            ⚠ {error}
+          </div>
+        )}
+
+        {/* Action */}
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          {!isConnected ? (
+            <ConnectButton />
+          ) : (
+            <button
+              className="btn-primary"
+              onClick={buttonState.action}
+              disabled={buttonState.disabled}
+              style={{ width: "100%" }}
+            >
+              {isApproving || isSwapping ? "..." : buttonState.text}
+            </button>
+          )}
+        </div>
       </div>
-    </Card>
+    </div>
   );
 }

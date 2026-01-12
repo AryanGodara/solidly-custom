@@ -41,7 +41,7 @@ export const monadTestnet: Chain = {
 };
 
 export const config = getDefaultConfig({
-  appName: "Solidly DEX",
+  appName: "Meridian DEX",
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "",
   chains: [monad, monadTestnet],
   transports: {

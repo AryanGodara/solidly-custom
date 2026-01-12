@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useBlockNumber } from "wagmi";
 import { monad } from "@/lib/wagmi";
-import { ExternalLink } from "lucide-react";
 
 export function Footer() {
   const { data: blockNumber } = useBlockNumber({
@@ -12,50 +10,28 @@ export function Footer() {
   });
 
   return (
-    <footer className="border-t border-white/5 bg-[#050510]">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
-        {/* Links */}
-        <div className="flex items-center gap-6 text-sm">
-          <Link
-            href="#"
-            className="flex items-center gap-1 text-zinc-500 transition-colors hover:text-white"
-          >
-            Docs
-            <ExternalLink className="h-3 w-3" />
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-1 text-zinc-500 transition-colors hover:text-white"
-          >
-            GitHub
-            <ExternalLink className="h-3 w-3" />
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-1 text-zinc-500 transition-colors hover:text-white"
-          >
-            Twitter
-            <ExternalLink className="h-3 w-3" />
-          </Link>
-        </div>
-
-        {/* Chain info */}
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-2 text-zinc-500">
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-            <span>Monad</span>
-          </div>
-          {blockNumber && (
-            <span className="font-mono text-xs text-zinc-600">
-              Block {blockNumber.toString()}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Copyright */}
-      <div className="border-t border-white/5 px-4 py-4 text-center text-xs text-zinc-600">
-        © 2024 Solidly DEX. All rights reserved.
+    <footer
+      style={{
+        background: "var(--window-bg)",
+        borderTop: "2px solid",
+        borderColor: "var(--bevel-light) var(--bevel-dark) var(--bevel-dark) var(--bevel-light)",
+        padding: "4px 8px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontSize: "11px",
+        }}
+      >
+        <span>© 2024 Meridian DEX</span>
+        <span>
+          Monad | Block: {blockNumber?.toString() || "0"}
+        </span>
       </div>
     </footer>
   );

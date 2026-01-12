@@ -1,138 +1,101 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
-import { PageContainer } from "@/components/layout";
-import { Card, Button } from "@/components/ui";
-import { formatDuration } from "@/lib/format";
 import { SECONDS_PER_WEEK, MAX_LOCK_DURATION } from "@/lib/constants";
-
-const LOCK_PRESETS = [
-  { label: "1 Week", value: SECONDS_PER_WEEK },
-  { label: "4 Weeks", value: SECONDS_PER_WEEK * 4 },
-  { label: "12 Weeks", value: SECONDS_PER_WEEK * 12 },
-  { label: "26 Weeks", value: MAX_LOCK_DURATION },
-];
+import { formatDuration } from "@/lib/format";
 
 export default function LockPage() {
-  const { isConnected } = useAccount();
   const [amount, setAmount] = useState("");
-  const [duration, setDuration] = useState(SECONDS_PER_WEEK * 4);
+  const [weeks, setWeeks] = useState(4);
 
-  // Calculate voting power based on lock duration
-  const votingPowerMultiplier = duration / MAX_LOCK_DURATION;
-  const estimatedVotingPower = amount ? parseFloat(amount) * votingPowerMultiplier : 0;
-
-  const handleCreateLock = () => {
-    // TODO: Implement lock creation
-    console.log("Creating lock:", { amount, duration });
-  };
+  const duration = weeks * SECONDS_PER_WEEK;
+  const multiplier = duration / MAX_LOCK_DURATION;
+  const votingPower = amount ? (parseFloat(amount) * multiplier).toFixed(4) : "0.0000";
 
   return (
-    <PageContainer>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Lock</h1>
-        <p className="mt-2 text-zinc-400">
-          Lock tokens to receive veNFTs and voting power
-        </p>
+    <div style={{ minHeight: "100vh", padding: "16px" }}>
+      <div className="window" style={{ maxWidth: "500px", margin: "0 auto" }}>
+        {/* Title Bar */}
+        <div className="window-title">
+          <span>🔒 Lock Tokens</span>
+          <div style={{ display: "flex", gap: "2px" }}>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>_</button>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>□</button>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>×</button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="window-content">
+          {/* Amount */}
+          <fieldset>
+            <legend>Amount to Lock</legend>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                type="text"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
+                placeholder="0.00"
+                style={{ flex: 1 }}
+              />
+              <span className="text-mono">SOLID</span>
+            </div>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "4px" }}>
+              Balance: 0.00
+            </div>
+          </fieldset>
+
+          {/* Duration */}
+          <fieldset style={{ marginTop: "16px" }}>
+            <legend>Lock Duration</legend>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                type="number"
+                min="1"
+                max="26"
+                value={weeks}
+                onChange={(e) => setWeeks(Math.min(26, Math.max(1, Number(e.target.value))))}
+                style={{ width: "80px" }}
+              />
+              <span>weeks</span>
+              <span className="text-muted">({formatDuration(duration)})</span>
+            </div>
+          </fieldset>
+
+          {/* Summary */}
+          <fieldset style={{ marginTop: "16px" }}>
+            <legend>Summary</legend>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Lock Amount</td>
+                  <td className="text-mono" style={{ textAlign: "right" }}>{amount || "0"} SOLID</td>
+                </tr>
+                <tr>
+                  <td>Lock Duration</td>
+                  <td className="text-mono" style={{ textAlign: "right" }}>{weeks} weeks</td>
+                </tr>
+                <tr>
+                  <td>Voting Power</td>
+                  <td className="text-mono" style={{ textAlign: "right" }}>{votingPower} veNFT</td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          {/* Action */}
+          <div style={{ marginTop: "16px" }}>
+            <button className="btn-primary" disabled={!amount || parseFloat(amount) <= 0} style={{ width: "100%" }}>
+              Create Lock
+            </button>
+          </div>
+        </div>
+
+        {/* Status Bar */}
+        <div className="statusbar">
+          Your veNFTs: 0
+        </div>
       </div>
-
-      {/* Create lock card */}
-      <Card className="mx-auto max-w-lg" glow>
-        <h2 className="mb-6 text-xl font-semibold text-white">Create Lock</h2>
-
-        {/* Amount input */}
-        <div className="mb-6">
-          <label className="mb-2 block text-sm font-medium text-zinc-400">
-            Amount to Lock
-          </label>
-          <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-4">
-            <input
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
-              placeholder="0"
-              className="flex-1 bg-transparent text-right text-2xl font-semibold text-white placeholder-zinc-600 focus:outline-none"
-            />
-            <span className="font-semibold text-zinc-400">SOLID</span>
-          </div>
-          <p className="mt-2 text-right text-xs text-zinc-500">
-            Balance: 0.00
-          </p>
-        </div>
-
-        {/* Duration selector */}
-        <div className="mb-6">
-          <label className="mb-2 block text-sm font-medium text-zinc-400">
-            Lock Duration
-          </label>
-          <div className="mb-4 grid grid-cols-4 gap-2">
-            {LOCK_PRESETS.map((preset) => (
-              <button
-                key={preset.value}
-                onClick={() => setDuration(preset.value)}
-                className={`rounded-xl py-3 text-sm font-medium transition-all duration-200 ${
-                  duration === preset.value
-                    ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-indigo-500/25"
-                    : "border border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"
-                }`}
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
-          <input
-            type="range"
-            min={SECONDS_PER_WEEK}
-            max={MAX_LOCK_DURATION}
-            step={SECONDS_PER_WEEK}
-            value={duration}
-            onChange={(e) => setDuration(parseInt(e.target.value))}
-            className="w-full"
-          />
-          <div className="mt-2 flex justify-between text-xs text-zinc-500">
-            <span>1 week</span>
-            <span className="font-medium text-white">{formatDuration(duration)}</span>
-            <span>26 weeks</span>
-          </div>
-        </div>
-
-        {/* Estimated voting power */}
-        <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-400">Estimated Voting Power</span>
-            <span className="text-2xl font-bold text-gradient">
-              {estimatedVotingPower.toFixed(4)} veNFT
-            </span>
-          </div>
-          <p className="mt-3 text-xs text-zinc-500">
-            Longer lock duration = more voting power. Voting power decays linearly
-            until unlock.
-          </p>
-        </div>
-
-        {/* Create button */}
-        <Button
-          size="lg"
-          className="w-full"
-          onClick={handleCreateLock}
-          disabled={!amount || parseFloat(amount) <= 0}
-        >
-          Create Lock
-        </Button>
-      </Card>
-
-      {/* Existing veNFTs */}
-      <div className="mx-auto mt-8 max-w-lg">
-        <h2 className="mb-4 text-xl font-semibold text-white">Your veNFTs</h2>
-        <Card className="py-10 text-center">
-          <p className="text-zinc-400">No veNFTs found</p>
-          <p className="mt-2 text-sm text-zinc-500">
-            Create a lock to receive your first veNFT
-          </p>
-        </Card>
-      </div>
-    </PageContainer>
+    </div>
   );
 }

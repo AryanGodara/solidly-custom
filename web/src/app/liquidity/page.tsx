@@ -1,98 +1,84 @@
 "use client";
 
-import Link from "next/link";
-import { Plus } from "lucide-react";
 import { PageContainer } from "@/components/layout";
-import { Card, Button, Badge } from "@/components/ui";
+import Link from "next/link";
 
-// Placeholder pool data
 const POOLS = [
-  { id: 1, token0: "WMON", token1: "USDC", stable: false, tvl: 0, apr: 0 },
-  { id: 2, token0: "WMON", token1: "WETH", stable: false, tvl: 0, apr: 0 },
-  { id: 3, token0: "USDC", token1: "USDT", stable: true, tvl: 0, apr: 0 },
+  { id: 1, pair: "WMON/USDC", type: "Volatile", tvl: "$0.00", apr: "0.00%", myLiquidity: "$0.00" },
+  { id: 2, pair: "WMON/WETH", type: "Volatile", tvl: "$0.00", apr: "0.00%", myLiquidity: "$0.00" },
+  { id: 3, pair: "USDC/USDT", type: "Stable", tvl: "$0.00", apr: "0.00%", myLiquidity: "$0.00" },
 ];
 
 export default function LiquidityPage() {
   return (
-    <PageContainer>
-      {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Liquidity</h1>
-          <p className="mt-2 text-zinc-400">
-            Add liquidity to pools and earn trading fees
-          </p>
-        </div>
-        <Link href="/liquidity/add">
-          <Button>
-            <Plus className="h-4 w-4" />
-            Add Liquidity
-          </Button>
-        </Link>
-      </div>
-
-      {/* Pool list */}
-      <div className="space-y-3">
-        {POOLS.map((pool) => (
-          <PoolCard key={pool.id} pool={pool} />
-        ))}
-      </div>
-
-      {/* Empty state */}
-      {POOLS.length === 0 && (
-        <Card className="py-12 text-center">
-          <p className="text-zinc-400">No pools found</p>
-        </Card>
-      )}
-    </PageContainer>
-  );
-}
-
-interface Pool {
-  id: number;
-  token0: string;
-  token1: string;
-  stable: boolean;
-  tvl: number;
-  apr: number;
-}
-
-function PoolCard({ pool }: { pool: Pool }) {
-  return (
-    <Card className="flex items-center justify-between">
-      <div className="flex items-center gap-4">
-        {/* Token pair icons */}
-        <div className="flex -space-x-3">
-          <div className="h-10 w-10 rounded-full border-2 border-[#0f0f1a] bg-gradient-to-br from-indigo-500 to-purple-600" />
-          <div className="h-10 w-10 rounded-full border-2 border-[#0f0f1a] bg-gradient-to-br from-amber-500 to-orange-600" />
-        </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-white">
-              {pool.token0}/{pool.token1}
-            </span>
-            <Badge variant={pool.stable ? "success" : "default"}>
-              {pool.stable ? "Stable" : "Volatile"}
-            </Badge>
+    <div style={{ minHeight: "100vh", padding: "16px" }}>
+      <div className="window" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        {/* Title Bar */}
+        <div className="window-title">
+          <span>💧 Liquidity Pools</span>
+          <div style={{ display: "flex", gap: "2px" }}>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>_</button>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>□</button>
+            <button style={{ minWidth: "20px", padding: "0 4px" }}>×</button>
           </div>
         </div>
-      </div>
 
-      <div className="flex items-center gap-8">
-        <div className="text-right">
-          <p className="text-xs text-zinc-500">TVL</p>
-          <p className="font-medium text-white">${pool.tvl.toLocaleString()}</p>
+        {/* Menu Bar */}
+        <div className="menubar">
+          <span className="menubar-item"><u>F</u>ile</span>
+          <span className="menubar-item"><u>E</u>dit</span>
+          <span className="menubar-item"><u>V</u>iew</span>
+          <span className="menubar-item"><u>H</u>elp</span>
         </div>
-        <div className="text-right">
-          <p className="text-xs text-zinc-500">APR</p>
-          <p className="font-medium text-green-400">{pool.apr}%</p>
+
+        {/* Content */}
+        <div className="window-content">
+          {/* Actions */}
+          <div style={{ marginBottom: "16px" }}>
+            <Link href="/liquidity/add">
+              <button className="btn-primary">+ Add Liquidity</button>
+            </Link>
+          </div>
+
+          {/* Pools Table */}
+          <fieldset>
+            <legend>Available Pools</legend>
+            <table>
+              <thead>
+                <tr>
+                  <th>Pair</th>
+                  <th>Type</th>
+                  <th style={{ textAlign: "right" }}>TVL</th>
+                  <th style={{ textAlign: "right" }}>APR</th>
+                  <th style={{ textAlign: "right" }}>My Liquidity</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {POOLS.map((pool) => (
+                  <tr key={pool.id}>
+                    <td className="text-mono">{pool.pair}</td>
+                    <td>{pool.type}</td>
+                    <td className="text-mono" style={{ textAlign: "right" }}>{pool.tvl}</td>
+                    <td className="text-mono text-success" style={{ textAlign: "right" }}>{pool.apr}</td>
+                    <td className="text-mono" style={{ textAlign: "right" }}>{pool.myLiquidity}</td>
+                    <td>
+                      <Link href={`/liquidity/${pool.id}`}>
+                        <button>Manage</button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </fieldset>
         </div>
-        <Link href={`/liquidity/${pool.id}`}>
-          <Button variant="secondary" size="sm">
-            Manage
-          </Button>
-        </Link>
+
+        {/* Status Bar */}
+        <div className="statusbar">
+          {POOLS.length} pools available
+        </div>
       </div>
-    </Card>
+    </div>
   );
 }

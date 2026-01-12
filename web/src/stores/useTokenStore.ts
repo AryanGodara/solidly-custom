@@ -37,7 +37,7 @@ export const useTokenStore = create<TokenState>()(
       isFavorite: (address) => get().favorites.includes(address),
     }),
     {
-      name: "solidly-tokens",
+      name: "meridian-tokens",
       partialize: (state) => ({ favorites: state.favorites }),
     }
   )

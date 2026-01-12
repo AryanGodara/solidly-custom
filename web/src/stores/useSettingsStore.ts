@@ -18,7 +18,7 @@ export const useSettingsStore = create<SettingsState>()(
       setDeadline: (value) => set({ deadline: value }),
     }),
     {
-      name: "solidly-settings",
+      name: "meridian-settings",
     }
   )
 );

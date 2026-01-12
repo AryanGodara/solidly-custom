@@ -5,8 +5,8 @@ import { SwapCard } from "@/components/swap";
 
 export default function SwapPage() {
   return (
-    <PageContainer className="flex items-start justify-center pt-32">
+    <div style={{ minHeight: "100vh", padding: "16px" }}>
       <SwapCard />
-    </PageContainer>
+    </div>
   );
 }

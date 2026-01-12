@@ -1,4 +1,4 @@
 export { Header } from "./Header";
 export { Footer } from "./Footer";
 export { PageContainer } from "./PageContainer";
-export { BottomNav } from "./BottomNav";
+// BottomNav removed - too modern for Wild West theme

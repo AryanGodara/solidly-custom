@@ -1,285 +1,313 @@
 @import "tailwindcss";
 
-/* === Design Tokens === */
+/* ============================================
+   MERIDIAN DEX - Windows 95 Theme
+   ============================================
+   Authentic Windows 95 aesthetic
+   Teal desktop, grey windows, 3D beveled buttons
+   ============================================ */
+
 :root {
-  /* Backgrounds */
-  --bg-primary: #050510;
-  --bg-secondary: #0a0a14;
-  --bg-card: rgba(15, 15, 25, 0.8);
-  --bg-card-hover: rgba(20, 20, 35, 0.9);
-  
+  /* Desktop Background - Classic Teal */
+  --desktop-bg: #008080;
+
+  /* Window Chrome */
+  --window-bg: #c0c0c0;
+  --window-title-active: #000080;
+  --window-title-inactive: #808080;
+  --window-title-text: #ffffff;
+
+  /* 3D Bevel Colors */
+  --bevel-light: #ffffff;
+  --bevel-dark: #808080;
+  --bevel-darker: #404040;
+
   /* Text */
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  
-  /* Accent */
-  --accent-primary: #6366f1;
-  --accent-secondary: #8b5cf6;
-  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
-  --accent-glow: rgba(99, 102, 241, 0.4);
-  
-  /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-card: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.12);
-  
-  /* Fonts */
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --text-primary: #000000;
+  --text-secondary: #404040;
+  --text-disabled: #808080;
+  --text-link: #0000ff;
+
+  /* Button States */
+  --button-face: #c0c0c0;
+  --button-highlight: #ffffff;
+  --button-shadow: #808080;
+  --button-dark-shadow: #000000;
+
+  /* Input Fields */
+  --input-bg: #ffffff;
+  --input-border: #808080;
+
+  /* Status Colors */
+  --color-success: #008000;
+  --color-error: #ff0000;
+  --color-warning: #808000;
+
+  /* Typography - System Font */
+  --font-system: "MS Sans Serif", "Segoe UI", Tahoma, Geneva, sans-serif;
+  --font-mono: "Fixedsys", "Courier New", Courier, monospace;
 }
 
 /* === Base Styles === */
-html {
-  scroll-behavior: smooth;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--bg-primary);
+  background: var(--desktop-bg);
   color: var(--text-primary);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-system);
+  font-size: 12px;
+  line-height: 1.4;
 }
 
-/* Background gradient overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(139, 92, 246, 0.1), transparent);
-  pointer-events: none;
-  z-index: -1;
+/* === Windows 95 Window === */
+.window {
+  background: var(--window-bg);
+  border: 2px solid;
+  border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
+  box-shadow: 1px 1px 0 var(--bevel-dark);
 }
 
-/* === Animations === */
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
+.window-title {
+  background: var(--window-title-active);
+  color: var(--window-title-text);
+  padding: 2px 4px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.window-content {
+  padding: 8px;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-/* === Utility Classes === */
-.animate-glow-pulse {
-  animation: glow-pulse 4s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-}
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
-}
-
-/* Gradient Text */
-.text-gradient {
-  background: var(--accent-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-size: 200% 200%;
-  animation: gradient-shift 5s ease infinite;
-}
-
-/* Glassmorphism Card */
-.glass-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-card);
-  border-radius: 16px;
-}
-
-.glass-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
-}
-
-/* Glow Effect */
-.glow {
-  position: relative;
-}
-
-.glow::before {
-  content: '';
-  position: absolute;
-  inset: -20%;
-  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.glow:hover::before {
-  opacity: 1;
-}
-
-/* Gradient Button */
-.btn-gradient {
-  background: var(--accent-gradient);
-  background-size: 200% 200%;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
+/* === 3D Raised Button (Windows 95 Style) === */
+button,
+.btn {
+  font-family: var(--font-system);
+  font-size: 12px;
+  background: var(--button-face);
+  color: var(--text-primary);
+  padding: 4px 12px;
+  border: 2px solid;
+  border-color: var(--button-highlight) var(--button-dark-shadow) var(--button-dark-shadow) var(--button-highlight);
+  box-shadow:
+    inset -1px -1px 0 var(--button-shadow),
+    inset 1px 1px 0 var(--button-highlight);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  min-width: 75px;
+  text-align: center;
 }
 
-.btn-gradient:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(99, 102, 241, 0.5);
-  animation: gradient-shift 2s ease infinite;
+button:hover,
+.btn:hover {
+  /* No hover change in Win95 */
 }
 
-.btn-gradient:active {
-  transform: translateY(0);
+button:active,
+.btn:active {
+  border-color: var(--button-dark-shadow) var(--button-highlight) var(--button-highlight) var(--button-dark-shadow);
+  box-shadow:
+    inset 1px 1px 0 var(--button-shadow);
+  padding: 5px 11px 3px 13px;
+  /* Shift text down-right */
 }
 
-/* Secondary Button */
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
+button:disabled,
+.btn:disabled {
+  color: var(--text-disabled);
+  text-shadow: 1px 1px 0 var(--bevel-light);
+  cursor: default;
+}
+
+button:focus,
+.btn:focus {
+  outline: 1px dotted var(--text-primary);
+  outline-offset: -4px;
+}
+
+/* === Primary Button (Default/Blue) === */
+.btn-primary {
+  background: var(--button-face);
+  border: 3px solid;
+  border-color: var(--button-dark-shadow);
+  box-shadow:
+    inset -1px -1px 0 var(--button-shadow),
+    inset 2px 2px 0 var(--button-highlight),
+    inset -2px -2px 0 var(--button-dark-shadow);
+}
+
+/* === Sunken Input Fields === */
+input,
+select,
+textarea {
+  font-family: var(--font-system);
+  font-size: 12px;
+  background: var(--input-bg);
   color: var(--text-primary);
-  font-weight: 600;
-  border: 1px solid var(--border-card);
-  border-radius: 12px;
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 2px 4px;
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+  box-shadow: inset 1px 1px 0 var(--bevel-darker);
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--border-hover);
-}
-
-/* Input Styles */
-input[type="text"],
-input[type="number"] {
-  background: transparent;
-  color: var(--text-primary);
-  border: none;
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
 }
 
-input[type="text"]::placeholder,
-input[type="number"]::placeholder {
-  color: var(--text-muted);
+input[type="text"],
+input[type="number"] {
+  min-height: 20px;
 }
 
-/* Range Slider */
-input[type="range"] {
-  appearance: none;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 9999px;
-  height: 6px;
+/* === Groupbox / Fieldset === */
+fieldset,
+.groupbox {
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+  padding: 8px;
+  margin: 8px 0;
+  background: var(--window-bg);
+}
+
+fieldset legend,
+.groupbox-title {
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+/* === Menu Bar === */
+.menubar {
+  background: var(--window-bg);
+  border-bottom: 1px solid var(--bevel-dark);
+  padding: 2px 0;
+}
+
+.menubar-item {
+  padding: 2px 8px;
   cursor: pointer;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.5);
-  transition: transform 0.2s ease;
+.menubar-item:hover {
+  background: var(--window-title-active);
+  color: var(--window-title-text);
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
+/* === Status Bar === */
+.statusbar {
+  background: var(--window-bg);
+  border-top: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+  padding: 2px 4px;
+  font-size: 11px;
 }
 
-/* Scrollbar */
+/* === Tables === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: var(--input-bg);
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+}
+
+th {
+  background: var(--button-face);
+  border: 1px solid var(--bevel-dark);
+  padding: 2px 8px;
+  text-align: left;
+  font-weight: bold;
+}
+
+td {
+  border: 1px solid var(--bevel-dark);
+  padding: 2px 8px;
+}
+
+tr:hover {
+  background: var(--window-title-active);
+  color: var(--window-title-text);
+}
+
+/* === Links === */
+a {
+  color: var(--text-link);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #800080;
+}
+
+a:hover {
+  color: var(--text-link);
+}
+
+/* === Horizontal Rule === */
+hr {
+  border: none;
+  border-top: 1px solid var(--bevel-dark);
+  border-bottom: 1px solid var(--bevel-light);
+  margin: 8px 0;
+}
+
+/* === Scrollbar (Windows 95 Style) === */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 16px;
+  height: 16px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: repeating-conic-gradient(var(--window-bg) 0% 25%, var(--bevel-light) 0% 50%) 50% / 2px 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: var(--button-face);
+  border: 2px solid;
+  border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+::-webkit-scrollbar-button {
+  background: var(--button-face);
+  border: 2px solid;
+  border-color: var(--bevel-light) var(--bevel-darker) var(--bevel-darker) var(--bevel-light);
 }
 
-/* Selection */
-::selection {
-  background: rgba(99, 102, 241, 0.3);
-  color: var(--text-primary);
+/* === Utility Classes === */
+.text-mono {
+  font-family: var(--font-mono);
 }
 
-/* === Theme inline for Tailwind v4 === */
+.text-muted {
+  color: var(--text-disabled);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+/* === Container === */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+/* === Tailwind Theme === */
 @theme inline {
-  --color-background: var(--bg-primary);
+  --color-background: var(--desktop-bg);
   --color-foreground: var(--text-primary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-system);
+  --font-mono: var(--font-mono);
 }

@@ -14,24 +14,19 @@ const app = new Hono().basePath("/api");
 app.use("*", logger());
 app.use("*", prettyJSON());
 
-// CORS configuration with environment-based origins
+// CORS configuration
 app.use(
   "*",
   cors({
     origin: (origin) => {
-      // Default allowed origins
       const defaultOrigins = ["http://localhost:3000", "http://localhost:3001"];
-      
-      // Parse environment variable for additional origins
       const envOrigins = process.env.CORS_ORIGINS?.split(",").map((o) => o.trim()) || [];
       const allowedOrigins = [...defaultOrigins, ...envOrigins];
       
-      // If origin is in allowed list, return it; otherwise return first allowed
       if (!origin || allowedOrigins.includes(origin)) {
         return origin || allowedOrigins[0];
       }
       
-      // For Vercel preview deployments (*.vercel.app)
       if (origin.endsWith(".vercel.app")) {
         return origin;
       }
@@ -41,11 +36,11 @@ app.use(
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     credentials: true,
-    maxAge: 86400, // 24 hours
+    maxAge: 86400,
   })
 );
 
-// Health check (at /api/health)
+// Health check
 app.get("/health", (c) =>
   c.json({
     status: "ok",
@@ -59,10 +54,10 @@ app.route("/tokens", tokensRoutes);
 app.route("/pairs", pairsRoutes);
 app.route("/analytics", analyticsRoutes);
 
-// Root endpoint (at /api)
+// Root endpoint
 app.get("/", (c) =>
   c.json({
-    name: "Solidly DEX API",
+    name: "Meridian DEX API",
     version: "1.0.0",
     endpoints: [
       "GET /api/health",
@@ -80,14 +75,7 @@ app.get("/", (c) =>
 
 // 404 handler
 app.notFound((c) =>
-  c.json(
-    {
-      success: false,
-      error: "Not found",
-      path: c.req.path,
-    },
-    404
-  )
+  c.json({ success: false, error: "Not found", path: c.req.path }, 404)
 );
 
 // Error handler
