@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { Header, Footer } from "@/components/layout";
+import { Header, Footer, BottomNav } from "@/components/layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Solidly DEX",
-  description: "A ve(3,3) DEX on Monad",
+  title: "Solidly DEX | ve(3,3) DEX on Monad",
+  description: "The first ve(3,3) DEX on Monad. Trade, provide liquidity, vote for emissions, and earn rewards.",
 };
 
 export default function RootLayout({
@@ -27,14 +27,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-zinc-950 text-zinc-100 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
+        style={{ background: "#050510", color: "#ffffff" }}
       >
         <Providers>
           <Header />
           {children}
           <Footer />
+          <BottomNav />
         </Providers>
       </body>
     </html>
   );
 }
+

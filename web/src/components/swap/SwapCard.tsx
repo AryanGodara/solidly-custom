@@ -48,10 +48,10 @@ export function SwapCard() {
   const buttonState = getButtonState();
 
   return (
-    <Card className="mx-auto w-full max-w-md p-6">
+    <Card className="mx-auto w-full max-w-md p-6" glow>
       {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-zinc-100">Swap</h2>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-white">Swap</h2>
         <SwapSettingsButton />
       </div>
 
@@ -71,7 +71,7 @@ export function SwapCard() {
         <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
           <button
             onClick={switchTokens}
-            className="rounded-xl border-4 border-zinc-900 bg-zinc-800 p-2 transition-colors hover:bg-zinc-700"
+            className="rounded-xl border-4 border-[#0f0f1a] bg-[#1a1a2e] p-2.5 transition-all duration-200 hover:bg-[#252540] hover:rotate-180"
           >
             <ArrowDownUp className="h-4 w-4 text-zinc-400" />
           </button>
@@ -91,23 +91,23 @@ export function SwapCard() {
 
       {/* Price info */}
       {tokenIn && tokenOut && amountIn && amountOut && (
-        <div className="mt-4 rounded-lg bg-zinc-800/50 p-3">
+        <div className="mt-4 rounded-xl border border-white/5 bg-white/5 p-4">
           <div className="flex items-center justify-between text-sm">
             <span className="text-zinc-400">Price Impact</span>
-            <span className="text-zinc-100">{quote.priceImpact.toFixed(2)}%</span>
+            <span className="font-medium text-white">{quote.priceImpact.toFixed(2)}%</span>
           </div>
         </div>
       )}
 
       {/* Error message */}
       {error && (
-        <div className="mt-4 rounded-lg bg-red-900/20 p-3 text-sm text-red-400">
+        <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400">
           {error}
         </div>
       )}
 
       {/* Action button */}
-      <div className="mt-4">
+      <div className="mt-6">
         {!isConnected ? (
           <div className="flex justify-center">
             <ConnectButton />

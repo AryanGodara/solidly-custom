@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useAccount } from "wagmi";
-import { Plus } from "lucide-react";
 import { PageContainer } from "@/components/layout";
-import { Card, Button, Badge, Skeleton } from "@/components/ui";
+import { Card, Button } from "@/components/ui";
 import { formatDuration } from "@/lib/format";
 import { SECONDS_PER_WEEK, MAX_LOCK_DURATION } from "@/lib/constants";
 
@@ -33,46 +32,50 @@ export default function LockPage() {
     <PageContainer>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-zinc-100">Lock</h1>
-        <p className="mt-1 text-sm text-zinc-400">
+        <h1 className="text-3xl font-bold text-white">Lock</h1>
+        <p className="mt-2 text-zinc-400">
           Lock tokens to receive veNFTs and voting power
         </p>
       </div>
 
       {/* Create lock card */}
-      <Card className="mx-auto max-w-lg">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">Create Lock</h2>
+      <Card className="mx-auto max-w-lg" glow>
+        <h2 className="mb-6 text-xl font-semibold text-white">Create Lock</h2>
 
         {/* Amount input */}
-        <div className="mb-4">
-          <label className="mb-2 block text-sm text-zinc-400">Amount to Lock</label>
-          <div className="flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3">
+        <div className="mb-6">
+          <label className="mb-2 block text-sm font-medium text-zinc-400">
+            Amount to Lock
+          </label>
+          <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-4">
             <input
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
               placeholder="0"
-              className="flex-1 bg-transparent text-right text-xl font-medium text-zinc-100 placeholder-zinc-500 focus:outline-none"
+              className="flex-1 bg-transparent text-right text-2xl font-semibold text-white placeholder-zinc-600 focus:outline-none"
             />
-            <span className="font-medium text-zinc-400">SOLID</span>
+            <span className="font-semibold text-zinc-400">SOLID</span>
           </div>
-          <p className="mt-1 text-right text-xs text-zinc-500">
+          <p className="mt-2 text-right text-xs text-zinc-500">
             Balance: 0.00
           </p>
         </div>
 
         {/* Duration selector */}
-        <div className="mb-4">
-          <label className="mb-2 block text-sm text-zinc-400">Lock Duration</label>
-          <div className="mb-3 grid grid-cols-4 gap-2">
+        <div className="mb-6">
+          <label className="mb-2 block text-sm font-medium text-zinc-400">
+            Lock Duration
+          </label>
+          <div className="mb-4 grid grid-cols-4 gap-2">
             {LOCK_PRESETS.map((preset) => (
               <button
                 key={preset.value}
                 onClick={() => setDuration(preset.value)}
-                className={`rounded-lg py-2 text-sm font-medium transition-colors ${
+                className={`rounded-xl py-3 text-sm font-medium transition-all duration-200 ${
                   duration === preset.value
-                    ? "bg-indigo-600 text-white"
-                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-indigo-500/25"
+                    : "border border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"
                 }`}
               >
                 {preset.label}
@@ -86,24 +89,24 @@ export default function LockPage() {
             step={SECONDS_PER_WEEK}
             value={duration}
             onChange={(e) => setDuration(parseInt(e.target.value))}
-            className="w-full cursor-pointer accent-indigo-600"
+            className="w-full"
           />
-          <div className="mt-1 flex justify-between text-xs text-zinc-500">
+          <div className="mt-2 flex justify-between text-xs text-zinc-500">
             <span>1 week</span>
-            <span>{formatDuration(duration)}</span>
+            <span className="font-medium text-white">{formatDuration(duration)}</span>
             <span>26 weeks</span>
           </div>
         </div>
 
         {/* Estimated voting power */}
-        <div className="mb-6 rounded-lg bg-zinc-800/50 p-4">
+        <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
           <div className="flex items-center justify-between">
             <span className="text-sm text-zinc-400">Estimated Voting Power</span>
-            <span className="text-xl font-bold text-indigo-400">
+            <span className="text-2xl font-bold text-gradient">
               {estimatedVotingPower.toFixed(4)} veNFT
             </span>
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-3 text-xs text-zinc-500">
             Longer lock duration = more voting power. Voting power decays linearly
             until unlock.
           </p>
@@ -122,10 +125,10 @@ export default function LockPage() {
 
       {/* Existing veNFTs */}
       <div className="mx-auto mt-8 max-w-lg">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">Your veNFTs</h2>
-        <Card className="py-8 text-center">
+        <h2 className="mb-4 text-xl font-semibold text-white">Your veNFTs</h2>
+        <Card className="py-10 text-center">
           <p className="text-zinc-400">No veNFTs found</p>
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-zinc-500">
             Create a lock to receive your first veNFT
           </p>
         </Card>

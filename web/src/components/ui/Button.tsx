@@ -5,19 +5,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: "bg-indigo-600 text-white hover:bg-indigo-700",
-        secondary: "bg-zinc-800 text-zinc-100 hover:bg-zinc-700 border border-zinc-700",
-        ghost: "bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100",
-        danger: "bg-red-600 text-white hover:bg-red-700",
+        primary:
+          "bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-[length:200%_100%] text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:bg-right",
+        secondary:
+          "border border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/15",
+        ghost:
+          "bg-transparent text-zinc-400 hover:bg-white/5 hover:text-white",
+        danger:
+          "bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-500/25",
       },
       size: {
-        sm: "h-8 px-3 text-sm",
-        md: "h-10 px-4 text-sm",
-        lg: "h-12 px-6 text-base",
+        sm: "h-9 px-4 text-sm",
+        md: "h-11 px-5 text-sm",
+        lg: "h-13 px-7 text-base",
       },
     },
     defaultVariants: {

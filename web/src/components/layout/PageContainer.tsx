@@ -10,7 +10,7 @@ export function PageContainer({ children, className }: PageContainerProps) {
   return (
     <main
       className={cn(
-        "mx-auto min-h-screen max-w-6xl px-4 pb-20 pt-24",
+        "mx-auto min-h-screen max-w-6xl px-4 pb-28 pt-24 sm:pb-20",
         className
       )}
     >

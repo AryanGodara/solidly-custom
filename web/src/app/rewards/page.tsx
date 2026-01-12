@@ -22,18 +22,18 @@ export default function RewardsPage() {
     <PageContainer>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-zinc-100">Rewards</h1>
-        <p className="mt-1 text-sm text-zinc-400">
+        <h1 className="text-3xl font-bold text-white">Rewards</h1>
+        <p className="mt-2 text-zinc-400">
           Claim your emissions, trading fees, and bribes
         </p>
       </div>
 
       {/* Overview */}
-      <Card className="mb-6">
+      <Card className="mb-6" glow>
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-zinc-400">Total Claimable</p>
-            <p className="text-3xl font-bold text-zinc-100">
+            <p className="text-3xl font-bold text-white">
               ${totalClaimable.toLocaleString()}
             </p>
           </div>
@@ -86,7 +86,7 @@ function RewardCategory({ title, description, rewards }: RewardCategoryProps) {
     <Card>
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h3 className="font-medium text-zinc-100">{title}</h3>
+          <h3 className="font-semibold text-white">{title}</h3>
           <p className="text-sm text-zinc-500">{description}</p>
         </div>
         <Badge variant={totalValue > 0 ? "success" : "default"}>
@@ -101,12 +101,12 @@ function RewardCategory({ title, description, rewards }: RewardCategoryProps) {
           {rewards.map((reward) => (
             <div
               key={reward.id}
-              className="flex items-center justify-between rounded-lg bg-zinc-800/50 p-3"
+              className="flex items-center justify-between rounded-xl bg-white/5 p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
                 <div>
-                  <span className="font-medium text-zinc-100">{reward.token}</span>
+                  <span className="font-medium text-white">{reward.token}</span>
                   <p className="text-xs text-zinc-500">{reward.amount}</p>
                 </div>
               </div>

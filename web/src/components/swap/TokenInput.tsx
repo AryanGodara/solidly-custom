@@ -63,10 +63,10 @@ export function TokenInput({
   };
 
   return (
-    <div className="rounded-xl bg-zinc-800 p-4">
+    <div className="rounded-xl border border-white/5 bg-[#0f0f1a] p-4">
       {/* Header */}
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm text-zinc-400">{label}</span>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-400">{label}</span>
         {balance !== undefined && (
           <span className="text-xs text-zinc-500">
             Balance: {formatTokenAmount(balance, decimals)}
@@ -81,12 +81,12 @@ export function TokenInput({
           type="button"
           onClick={() => setSelectorOpen(true)}
           disabled={disabled}
-          className="flex items-center gap-2 rounded-lg bg-zinc-700 px-3 py-2 transition-colors hover:bg-zinc-600 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 transition-all duration-200 hover:bg-white/10 hover:border-white/15 disabled:opacity-50"
         >
           {token && tokenInfo ? (
             <>
-              <div className="h-6 w-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
-              <span className="font-medium text-zinc-100">{tokenInfo.symbol}</span>
+              <div className="h-7 w-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
+              <span className="font-semibold text-white">{tokenInfo.symbol}</span>
             </>
           ) : (
             <span className="text-zinc-400">Select</span>

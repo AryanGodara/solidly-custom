@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { PageContainer } from "@/components/layout";
-import { Card, Button, Badge, Skeleton } from "@/components/ui";
+import { Card, Button, Badge } from "@/components/ui";
 
 // Placeholder pool data
 const POOLS = [
@@ -18,8 +18,8 @@ export default function LiquidityPage() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-100">Liquidity</h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <h1 className="text-3xl font-bold text-white">Liquidity</h1>
+          <p className="mt-2 text-zinc-400">
             Add liquidity to pools and earn trading fees
           </p>
         </div>
@@ -62,13 +62,13 @@ function PoolCard({ pool }: { pool: Pool }) {
     <Card className="flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* Token pair icons */}
-        <div className="flex -space-x-2">
-          <div className="h-8 w-8 rounded-full border-2 border-zinc-900 bg-gradient-to-br from-indigo-500 to-purple-600" />
-          <div className="h-8 w-8 rounded-full border-2 border-zinc-900 bg-gradient-to-br from-amber-500 to-orange-600" />
+        <div className="flex -space-x-3">
+          <div className="h-10 w-10 rounded-full border-2 border-[#0f0f1a] bg-gradient-to-br from-indigo-500 to-purple-600" />
+          <div className="h-10 w-10 rounded-full border-2 border-[#0f0f1a] bg-gradient-to-br from-amber-500 to-orange-600" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-zinc-100">
+            <span className="font-semibold text-white">
               {pool.token0}/{pool.token1}
             </span>
             <Badge variant={pool.stable ? "success" : "default"}>
@@ -81,7 +81,7 @@ function PoolCard({ pool }: { pool: Pool }) {
       <div className="flex items-center gap-8">
         <div className="text-right">
           <p className="text-xs text-zinc-500">TVL</p>
-          <p className="font-medium text-zinc-100">${pool.tvl.toLocaleString()}</p>
+          <p className="font-medium text-white">${pool.tvl.toLocaleString()}</p>
         </div>
         <div className="text-right">
           <p className="text-xs text-zinc-500">APR</p>
