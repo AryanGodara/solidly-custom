@@ -1,0 +1,29 @@
+{
+  "name": "@solidly-custom/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test -vvv",
+    "test:gas": "forge test --gas-report",
+    "coverage": "forge coverage",
+    "fmt": "forge fmt",
+    "snapshot": "forge snapshot",
+    "deploy:local": "forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast",
+    "deploy:sepolia": "forge script script/Deploy.s.sol --rpc-url $ARBITRUM_SEPOLIA_RPC_URL --broadcast --verify",
+    "deploy:mainnet": "forge script script/Deploy.s.sol --rpc-url $ARBITRUM_RPC_URL --broadcast --verify",
+    "verify": "forge verify-contract",
+    "anvil": "anvil --fork-url $ARBITRUM_RPC_URL",
+    "hh:compile": "npx hardhat compile",
+    "hh:verify": "npx hardhat verify"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-foundry": "^1.1.2",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.0",
+    "typescript": "^5.4.0"
+  }
+}
